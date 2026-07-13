@@ -1,0 +1,12 @@
+{
+  "name": "website",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "sync:d3": "mkdir -p vendor/d3 && cp node_modules/d3/dist/d3.min.js vendor/d3/d3.v7.min.js",
+    "postinstall": "npm run sync:d3"
+  },
+  "dependencies": {
+    "d3": "7.9.0"
+  }
+}
