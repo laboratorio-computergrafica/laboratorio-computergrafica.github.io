@@ -1,0 +1,343 @@
+@font-face {
+  font-family: "Aileron";
+  src: url("assets/aileron/Aileron-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("assets/aileron/Aileron-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+:root {
+  --page-bg: #f7f5ef;
+  --surface: #ffffff;
+  --text: #000000;
+  --border: #f3f0ed;
+  --grid-gutter: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fcfaf5 0%, var(--page-bg) 100%);
+  color: var(--text);
+}
+
+.page {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 96px 0 48px;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 280px;
+  padding: 32px 24px;
+}
+
+.hero-title {
+  margin: 0;
+  max-width: 780px;
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #000000;
+}
+
+.sections-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.section-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--surface);
+  text-align: center;
+}
+
+.section-icon {
+  display: block;
+  width: 126px;
+  height: 126px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.section-title {
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.1;
+  color: #000000;
+}
+
+.section-description {
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.35;
+  color: #000000;
+  text-align: center;
+}
+
+.page-intro {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  align-items: start;
+}
+
+.page-section-badge {
+  grid-column: span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  align-self: start;
+  gap: 16px;
+}
+
+.page-section-code {
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.1;
+  color: #000000;
+  text-align: center;
+}
+
+.page-section-title {
+  grid-column: span 3;
+  align-self: start;
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.1;
+  color: #000000;
+}
+
+.page-section-title em {
+  font-style: normal;
+  font-weight: 700;
+}
+
+.page-section-description {
+  grid-column: span 2;
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.35;
+  color: #000000;
+}
+
+.external-link {
+  display: block;
+  width: calc((100% - var(--grid-gutter)) / 2);
+  margin-top: 24px;
+  padding: 12px 18px;
+  border: 1px solid #000000;
+  border-radius: 30px;
+  background: transparent;
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.1;
+  color: #000000;
+}
+
+.projects {
+  margin-top: 80px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  margin-top: 32px;
+}
+
+.project-additional-info {
+  width: calc((100% - (var(--grid-gutter) * 5)) / 6);
+  margin-top: 32px;
+}
+
+.project-additional-info .external-link {
+  width: 100%;
+}
+
+.project-card {
+  grid-column: span 1;
+  width: 100%;
+}
+
+.project-thumbnail {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.projects-year-title {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  align-items: start;
+  border-bottom: 1px solid #000000;
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 1.1;
+  color: #000000;
+}
+
+.projects-year-number {
+  grid-column: 1 / span 1;
+}
+
+.projects-year-professors {
+  grid-column: 5 / span 2;
+}
+
+.projects-year-professors .section-title {
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.1;
+  color: #000000;
+}
+
+.professor-name {
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  color: #000000;
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding-top: 72px;
+  }
+
+  .hero-title {
+    font-size: 48px;
+    line-height: 50px;
+  }
+
+  .sections-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 34px;
+  }
+
+  .section-description {
+    font-size: 20px;
+  }
+
+  .page-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .page-section-badge,
+  .page-section-title,
+  .page-section-description {
+    grid-column: auto;
+  }
+
+  .page-section-title {
+    font-size: 28px;
+    line-height: 1.1;
+  }
+
+  .external-link {
+    width: 100%;
+  }
+
+  .projects-year-title {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-additional-info {
+    width: 100%;
+  }
+
+  .projects-year-number,
+  .projects-year-professors,
+  .project-card {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    width: min(100% - 24px, 1120px);
+    padding-top: 48px;
+  }
+
+  .hero {
+    min-height: 220px;
+    padding: 24px 12px;
+  }
+
+  .hero-title {
+    font-size: 36px;
+    line-height: 40px;
+  }
+
+  .section-icon {
+    width: 96px;
+    height: 96px;
+  }
+
+  .section-title {
+    font-size: 30px;
+  }
+
+  .section-description {
+    font-size: 18px;
+  }
+
+  .page-section-title {
+    font-size: 24px;
+    line-height: 1.15;
+  }
+}
