@@ -28,6 +28,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background: linear-gradient(180deg, #fcfaf5 0%, var(--page-bg) 100%);
+  font-family: "Aileron", sans-serif;
   color: var(--text);
 }
 
@@ -38,16 +39,17 @@ body {
 }
 
 .hero {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 24px;
   align-items: center;
   min-height: 280px;
   padding: 32px 24px;
 }
 
 .hero-title {
+  grid-column: 1 / -1;
   margin: 0;
-  max-width: 780px;
   font-family: "Aileron", sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -56,6 +58,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  color: #000000;
+}
+
+.hero p {
+  grid-column: 1 / -1;
+  margin: 0;
+  font: inherit;
+  font-size: 22px;
+  line-height: 1.35;
   text-align: center;
   color: #000000;
 }
@@ -76,6 +88,8 @@ body {
   border: 1px solid var(--border);
   border-radius: 0;
   background: var(--surface);
+  color: inherit;
+  text-decoration: none;
   text-align: center;
 }
 
@@ -116,11 +130,17 @@ body {
 .page-section-badge {
   grid-column: span 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   align-self: start;
   gap: 16px;
+}
+
+.page-section-badge .section-icon {
+  width: 66px;
+  height: 66px;
+  margin: 0;
 }
 
 .page-section-code {
@@ -196,8 +216,31 @@ body {
 }
 
 .project-card {
+  display: block;
   grid-column: span 1;
   width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-title {
+  margin-top: 12px;
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #000000;
+}
+
+.project-authors {
+  margin-top: 6px;
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.35;
+  color: #000000;
 }
 
 .project-thumbnail {
@@ -219,6 +262,10 @@ body {
   font-size: 50px;
   line-height: 1.1;
   color: #000000;
+}
+
+.projects-year {
+  margin-top: 40px;
 }
 
 .projects-year-number {
@@ -284,6 +331,11 @@ body {
     line-height: 1.1;
   }
 
+  .page-section-badge .section-icon {
+    width: 62px;
+    height: 62px;
+  }
+
   .external-link {
     width: 100%;
   }
@@ -339,5 +391,10 @@ body {
   .page-section-title {
     font-size: 24px;
     line-height: 1.15;
+  }
+
+  .page-section-badge .section-icon {
+    width: 55px;
+    height: 55px;
   }
 }
