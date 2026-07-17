@@ -147,7 +147,7 @@ body {
   font-family: "Aileron", sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 30px;
+  font-size: 60px;
   line-height: 1.1;
   color: #000000;
   text-align: center;
@@ -187,16 +187,32 @@ body {
   border: 1px solid #000000;
   border-radius: 30px;
   background: transparent;
+  text-align: center;
+  text-decoration: none;
   font-family: "Aileron", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 1.1;
   color: #000000;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.external-link:hover,
+.external-link:active,
+.external-link:focus-visible {
+  background: #000000;
+  color: #ffffff;
 }
 
 .projects {
   margin-top: 80px;
+}
+
+.projects-year:not(.is-open) .projects-grid {
+  display: none;
 }
 
 .projects-grid {
@@ -256,6 +272,7 @@ body {
   gap: var(--grid-gutter);
   align-items: start;
   border-bottom: 1px solid #000000;
+  cursor: pointer;
   font-family: "Aileron", sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -264,8 +281,41 @@ body {
   color: #000000;
 }
 
+.projects-year-title:focus-visible {
+  outline: 1px solid #000000;
+  outline-offset: 6px;
+}
+
 .projects-year {
+  position: relative;
   margin-top: 40px;
+  padding-left: 48px;
+}
+
+.projects-year::before {
+  content: "";
+  position: absolute;
+  top: 17px;
+  left: 0;
+  z-index: 1;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #000000;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.projects-year::after {
+  content: "";
+  position: absolute;
+  top: 29px;
+  bottom: -40px;
+  left: 6px;
+  border-left: 1px solid #000000;
+}
+
+.projects-year:last-child::after {
+  display: none;
 }
 
 .projects-year-number {
@@ -348,6 +398,10 @@ body {
 
   .projects-year-title {
     grid-template-columns: 1fr;
+  }
+
+  .projects-year {
+    padding-left: 32px;
   }
 
   .projects-grid {

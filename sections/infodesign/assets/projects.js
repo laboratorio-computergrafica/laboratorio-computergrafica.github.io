@@ -23,9 +23,31 @@ d3.csv("./lcg-infodesign-projects.csv").then((rows) => {
   const root = d3.select("#projects");
 
   projectsByYear.forEach(([year, projects]) => {
+    const yearPanelId = `projects-year-${year}`;
     const section = root.append("div").attr("class", "projects-year");
 
-    const title = section.append("div").attr("class", "projects-year-title");
+    const title = section
+      .append("div")
+      .attr("class", "projects-year-title")
+      .attr("role", "button")
+      .attr("tabindex", "0")
+      .attr("aria-expanded", "false")
+      .attr("aria-controls", yearPanelId);
+
+    const toggleYear = () => {
+      const isOpen = !section.classed("is-open");
+      section.classed("is-open", isOpen);
+      title.attr("aria-expanded", String(isOpen));
+    };
+
+    title
+      .on("click", toggleYear)
+      .on("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        toggleYear();
+      });
+
     title.append("div").attr("class", "projects-year-number").text(year);
 
     const teacherNames = [...new Set(splitList(projects[0].teachers))];
@@ -75,6 +97,7 @@ d3.csv("./lcg-infodesign-projects.csv").then((rows) => {
     const cards = section
       .append("div")
       .attr("class", "projects-grid")
+      .attr("id", yearPanelId)
       .selectAll(".project-card")
       .data(cardsData)
       .enter()
