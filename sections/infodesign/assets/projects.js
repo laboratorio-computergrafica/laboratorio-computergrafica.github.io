@@ -43,6 +43,23 @@ d3.csv("./lcg-infodesign-projects.csv").then((rows) => {
       .attr("class", "professor-name")
       .text((d) => d);
 
+    const assistantNames = [
+      ...new Set(projects.flatMap((project) => splitList(project.assissants))),
+    ];
+    const assistants = title
+      .append("div")
+      .attr("class", "projects-year-assistants");
+
+    assistants.append("div").attr("class", "section-title").text("Assistants");
+
+    assistants
+      .selectAll(".assistant-name")
+      .data(assistantNames)
+      .enter()
+      .append("div")
+      .attr("class", "assistant-name")
+      .text((d) => d);
+
     const cardsData = projects.map((project) => {
       return {
         ...project,
