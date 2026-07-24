@@ -24,14 +24,17 @@ d3.csv("./lcg-infodesign-projects.csv").then((rows) => {
 
   projectsByYear.forEach(([year, projects]) => {
     const yearPanelId = `projects-year-${year}`;
-    const section = root.append("div").attr("class", "projects-year");
+    const section = root
+      .append("div")
+      .attr("class", "projects-year")
+      .classed("is-open", true);
 
     const title = section
       .append("div")
       .attr("class", "projects-year-title")
       .attr("role", "button")
       .attr("tabindex", "0")
-      .attr("aria-expanded", "false")
+      .attr("aria-expanded", "true")
       .attr("aria-controls", yearPanelId);
 
     const toggleYear = () => {
