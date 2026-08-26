@@ -237,6 +237,139 @@ body {
   width: 100%;
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
+}
+
+.project-card:focus-visible {
+  outline: 1px solid #000000;
+  outline-offset: 6px;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.project-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
+}
+
+.project-modal-overlay[hidden] {
+  display: none;
+}
+
+.project-modal {
+  position: relative;
+  width: min(900px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid #000000;
+}
+
+.project-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000000;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #000000;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.project-modal-close:hover,
+.project-modal-close:focus-visible {
+  background: #000000;
+  color: #ffffff;
+}
+
+.project-modal-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.project-modal-body {
+  padding: 32px;
+}
+
+.project-modal-title {
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  color: #000000;
+}
+
+.project-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.project-modal-actions .external-link {
+  flex: 1 1 200px;
+  margin-top: 0;
+}
+
+.project-modal-section-title {
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.1;
+  color: #000000;
+}
+
+.project-modal-authors {
+  margin-top: 24px;
+}
+
+.project-modal-authors-list {
+  margin-top: 8px;
+  font-family: "Aileron", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #000000;
+}
+
+.project-modal-author {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.project-modal-author {
+  text-decoration: underline;
+}
+
+a.project-modal-author:hover,
+a.project-modal-author:focus-visible {
+  color: #555555;
 }
 
 .project-title {
@@ -417,6 +550,18 @@ body {
   .projects-year-assistants,
   .project-card {
     grid-column: auto;
+  }
+
+  .project-modal-overlay {
+    padding: 12px;
+  }
+
+  .project-modal-body {
+    padding: 20px;
+  }
+
+  .project-modal-actions .external-link {
+    flex: 1 1 100%;
   }
 }
 

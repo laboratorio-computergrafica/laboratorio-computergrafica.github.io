@@ -15,7 +15,109 @@ const getThumbnailPath = (code) => {
   return `assets/projects/${normalizedCode}.png`;
 };
 
-d3.csv("./lcg-infodesign-projects.csv").then((rows) => {
+const modalOverlay = document.createElement("div");
+modalOverlay.className = "project-modal-overlay";
+modalOverlay.hidden = true;
+modalOverlay.innerHTML = `
+  <div class="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+    <button type="button" class="project-modal-close" aria-label="Chiudi">&times;</button>
+    <img class="project-modal-image" alt="" />
+    <div class="project-modal-body">
+      <div class="project-modal-title" id="project-modal-title"></div>
+      <div class="project-modal-actions"></div>
+      <div class="project-modal-authors">
+        <div class="project-modal-section-title">Autori</div>
+        <div class="project-modal-authors-list"></div>
+      </div>
+    </div>
+  </div>
+`;
+document.body.appendChild(modalOverlay);
+
+const modalImage = modalOverlay.querySelector(".project-modal-image");
+const modalTitle = modalOverlay.querySelector(".project-modal-title");
+const modalActions = modalOverlay.querySelector(".project-modal-actions");
+const modalAuthorsList = modalOverlay.querySelector(".project-modal-authors-list");
+const modalClose = modalOverlay.querySelector(".project-modal-close");
+
+let lastFocusedElement = null;
+
+const closeModal = () => {
+  if (modalOverlay.hidden) return;
+  modalOverlay.hidden = true;
+  document.body.classList.remove("modal-open");
+  if (lastFocusedElement) lastFocusedElement.focus();
+};
+
+const openModal = (data, triggerEl) => {
+  lastFocusedElement = triggerEl || null;
+
+  modalImage.onerror = () => {
+    modalImage.onerror = null;
+    modalImage.src = createPlaceholderThumbnail(data.projectName);
+  };
+  modalImage.src = data.thumbnail;
+  modalImage.alt = `Anteprima progetto ${data.projectName}`;
+  modalTitle.textContent = data.projectName;
+
+  modalActions.innerHTML = "";
+  if (data.link) {
+    const siteLink = document.createElement("a");
+    siteLink.className = "external-link";
+    siteLink.href = data.link;
+    siteLink.target = "_blank";
+    siteLink.rel = "noreferrer noopener";
+    siteLink.textContent = "Vedi sito";
+    modalActions.appendChild(siteLink);
+  }
+  if (data.repo) {
+    const repoLink = document.createElement("a");
+    repoLink.className = "external-link";
+    repoLink.href = data.repo;
+    repoLink.target = "_blank";
+    repoLink.rel = "noreferrer noopener";
+    repoLink.textContent = "Vedi codice";
+    modalActions.appendChild(repoLink);
+  }
+
+  modalAuthorsList.innerHTML = "";
+  const authors = data.people || [];
+  authors.forEach((person, index) => {
+    const name = (person.public_name || `${person.Nome} ${person.Cognome}`).trim();
+    const url = (person.url || "").trim();
+    const el = document.createElement(url ? "a" : "span");
+    el.className = "project-modal-author";
+    if (url) {
+      el.href = url;
+      el.target = "_blank";
+      el.rel = "noreferrer noopener";
+    }
+    el.textContent = name;
+    modalAuthorsList.appendChild(el);
+    if (index < authors.length - 1) {
+      modalAuthorsList.appendChild(document.createTextNode(", "));
+    }
+  });
+
+  modalOverlay.hidden = false;
+  document.body.classList.add("modal-open");
+  modalClose.focus();
+};
+
+modalClose.addEventListener("click", closeModal);
+modalOverlay.addEventListener("click", (event) => {
+  if (event.target === modalOverlay) closeModal();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeModal();
+});
+
+Promise.all([
+  d3.csv("./lcg-infodesign-projects.csv"),
+  d3.csv("./people-data.csv"),
+]).then(([rows, peopleRows]) => {
+  const peopleByProject = d3.group(peopleRows, (d) => d.progetto.trim());
+
   const projectsByYear = d3
     .groups(rows, (d) => d.year)
     .sort((a, b) => d3.descending(+a[0], +b[0]));
@@ -86,14 +188,25 @@ d3.csv("./lcg-infodesign-projects.csv").then((rows) => {
       .text((d) => d);
 
     const cardsData = projects.map((project) => {
+      const projectName = (
+        project.description ||
+        project.title ||
+        "Progetto"
+      ).trim();
+      const people = (
+        peopleByProject.get(`${project.year} - ${project.description}`) || []
+      )
+        .slice()
+        .sort(
+          (a, b) =>
+            d3.ascending(a.Cognome, b.Cognome) ||
+            d3.ascending(a.Nome, b.Nome),
+        );
       return {
         ...project,
         thumbnail: getThumbnailPath(project.code),
-        projectName: (
-          project.description ||
-          project.title ||
-          "Progetto"
-        ).trim(),
+        projectName,
+        people,
       };
     });
 
@@ -104,11 +217,18 @@ d3.csv("./lcg-infodesign-projects.csv").then((rows) => {
       .selectAll(".project-card")
       .data(cardsData)
       .enter()
-      .append((d) => document.createElement(d.link ? "a" : "article"))
+      .append("div")
       .attr("class", "project-card")
-      .attr("href", (d) => d.link || null)
-      .attr("target", (d) => (d.link ? "_blank" : null))
-      .attr("rel", (d) => (d.link ? "noreferrer noopener" : null));
+      .attr("role", "button")
+      .attr("tabindex", "0")
+      .on("click", function (event, d) {
+        openModal(d, this);
+      })
+      .on("keydown", function (event, d) {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        openModal(d, this);
+      });
 
     cards
       .append("img")
@@ -128,6 +248,10 @@ d3.csv("./lcg-infodesign-projects.csv").then((rows) => {
     cards
       .append("div")
       .attr("class", "project-authors")
-      .text((d) => d.authors || "");
+      .text((d) =>
+        d.people
+          .map((person) => (person.public_name || `${person.Nome} ${person.Cognome}`).trim())
+          .join(", "),
+      );
   });
 });
